@@ -1,3 +1,5 @@
 {
     "python.languageServer": "Pylance"
+    ,"python.pythonPath": "/Users/lukecusato/Documents/GitHub/fall2023_0201/infsci0201-luc59/flask_app/_venv/bin/python"
+
 }
