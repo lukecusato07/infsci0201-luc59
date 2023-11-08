@@ -16,7 +16,8 @@ class Professor():
 
     # Override the __hash__ method below
     def __hash__(self):
-        return hash((self.__name, self.__staff_id, self.__department, self.__courses_taught))
+        return hash((self.__name, self.__staff_id, 
+                     self.__department, self.__courses_taught))
 
 
 professor1 = Professor("John Doe", 12345, "Computer Science", 5)
@@ -28,6 +29,10 @@ print("professor1 and professor3 are equal: ", professor1 == professor3)
 
 # Creating a set and adding professors
 professors_set = {professor1, professor2, professor3}
+professor4 = Professor("Luke Cusato", 45515, "Information Science", 7)
+professor5 = Professor("Juan Pablo Urista", 58267, "Information Systems", 8)
+professor6 = Professor("Aakash Sell", 40213, "Electrical and Computer Engineering", 8)
+professors_set = {professor1, professor2, professor3, professor4, professor5, professor6} 
 
 # Testing the set size
 print("Size of the set: ", len(professors_set))
