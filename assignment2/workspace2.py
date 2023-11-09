@@ -1,4 +1,4 @@
-# Workspace for Part #2
+# Workspace for Part 2
 import json
 class Professor():
     def __init__(self, name, staff_id, department, courses_taught):

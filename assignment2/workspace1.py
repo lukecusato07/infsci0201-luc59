@@ -1,4 +1,4 @@
-# Workspace for Part #1
+# Workspace for Part 1
 class Professor():
     def __init__(self, name, staff_id, department, courses_taught):
         self.__name = name
