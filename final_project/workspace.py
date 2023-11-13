@@ -6,6 +6,14 @@ class Device():
         self.__id__ = id
         self.__value__ = value
 
+
+        
+        
+kitchen = Device('Kitchen', 0, True)
+light_bulb = Device('Light bulb', 1, True)
+smart_vacuum = Device('Smart vacuum', 2, True)
+
+
 # API endpoints
 @app.route("/")
 def index_page():
