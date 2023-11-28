@@ -4,63 +4,59 @@ import json
 
 class SmartDevice(ABC):
     def __init__(self, name: str, manufacturer: str):
-        self.__name__ = name
-        self.__manufacturer__ = manufacturer
+        self.__name = name
+        self.__manufacturer = manufacturer
 
     @abstractmethod
     def to_json(self):
-        smart_device_data = {
-            'name': self.__name__,
-            'manufacturer': self.__manufacturer__
-        }
-        return json.dumps(smart_device_data)
+        pass
     
     @abstractmethod
     def connect_to_network(self):
         pass
     
 class LightBulb(SmartDevice):
-    def __init__(self, name: str, manufacturer: str, brightness: int):
-        self.__name__: name
-        self.__manufacturer__: manufacturer
-        self.__brightness__ = brightness
+    def __init__(self, name: str, manufacturer: str, brightness: float):
+        super().__init__(name, manufacturer)
+        self.__brightness = brightness
 
     def adjust_brightness(self, value: float):
-        self.__value__: value
-        print("Brightness is set to: ", self.__brightness__)
+        self.__brightness = value
+        print(f"Brightness is set to: {self.__brightness}")
 
     def to_json(self):
         light_bulb_data = {
-            'name': self.__name__,
-            'manufacturer': self.__manufacturer__,
-            'brightness': self.__brightness__
+            'name': self._SmartDevice__name,
+            'manufacturer': self._SmartDevice__manufacturer,
+            'brightness': self.__brightness
         }
         return json.dumps(light_bulb_data)
     
     def connect_to_network(self):
-        print(self.__name__, " is now connected to the network")
+        print(f"{self._SmartDevice__name} is now connected to the network")
 
 class Home:
-    def __init__(self, address: str, smart_devices: list):
-        self.__address__ = address
-        self.__smart_devices__ = smart_devices
+    def __init__(self, address: str, smart_devices=None):
+        self.__address = address
+        self.__smart_devices = smart_devices if smart_devices is not None else []
 
     def add_device(self, device: SmartDevice):
-        self.__smart_devices__.append(device)
+        self.__smart_devices.append(device)
         device.connect_to_network()
 
     def print_devices(self):
-        for device in self.__smart_devices__:
+        for device in self.__smart_devices:
             print(device.to_json())
 
     def to_json(self):
         home_data = {
-            'address': self.__address__,
-            'smart_devices': [device.to_json for device in self.__smart_devices__]
+            'address': self._Home__address,
+            'smart_devices': [json.loads(device.to_json()) for device in self.__smart_devices]
         }
         return json.dumps(home_data) 
 
-bulb = LightBulb("SmartBulb", "Amazon", 0.5)
-home = Home("135 N Bellfield Ave", [])
+
+bulb = LightBulb("SmartBulb", "Amazon", 5)
+home = Home("135 N Bellfield Ave")
 home.add_device(bulb)
 home.print_devices()
