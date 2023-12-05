@@ -39,7 +39,7 @@ class LightBulb(SmartDevice):
         return json.dumps(light_bulb_data)
     
     def connect_to_network(self):
-        print(self.get_name(), "is now connected to the network")
+        print(self.get_name(), "is now connected to the network.")
 
 class Home:
     def __init__(self, address: str, smart_devices=None):
