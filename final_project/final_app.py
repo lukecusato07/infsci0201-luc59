@@ -41,11 +41,8 @@ class Device():
     def history(self):
         return "<h1>Here you can view your past actions history</h1>"
 
-
-        
         
 thermostat = Device('Thermostat', 0, 72)
 light_bulb = Device('Light bulb', 1, True)
-smart_vacuum = Device('Smart vacuum', 2, True)
-
+smart_vacuum = Device('Smart vacuum', 2, True) 
 
