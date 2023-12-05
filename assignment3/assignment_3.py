@@ -7,6 +7,12 @@ class SmartDevice(ABC):
         self.__name = name
         self.__manufacturer = manufacturer
 
+    def get_name(self):
+        return self.__name
+    
+    def get_manufacturer(self):
+        return self.__manufacturer 
+
     @abstractmethod
     def to_json(self):
         pass
@@ -22,18 +28,18 @@ class LightBulb(SmartDevice):
 
     def adjust_brightness(self, value: float):
         self.__brightness = value
-        print(f"Brightness is set to: {self.__brightness}")
+        print("Brightness is set to: ", self.__brightness)
 
     def to_json(self):
         light_bulb_data = {
-            'name': self._SmartDevice__name,
-            'manufacturer': self._SmartDevice__manufacturer,
+            'name': self.get_name(),
+            'manufacturer': self.get_manufacturer(),
             'brightness': self.__brightness
         }
         return json.dumps(light_bulb_data)
     
     def connect_to_network(self):
-        print(f"{self._SmartDevice__name} is now connected to the network")
+        print(self.get_name(), "is now connected to the network")
 
 class Home:
     def __init__(self, address: str, smart_devices=None):
@@ -50,7 +56,7 @@ class Home:
 
     def to_json(self):
         home_data = {
-            'address': self._Home__address,
+            'address': self.__address,
             'smart_devices': [json.loads(device.to_json()) for device in self.__smart_devices]
         }
         return json.dumps(home_data) 
