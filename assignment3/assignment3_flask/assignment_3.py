@@ -1,5 +1,7 @@
+# Part #2: Create a Flask App for Home Devices in Part#1
 from flask import Flask, render_template, request, jsonify
 import json
+import os 
 
 from model.smart_devices import Home
 from model.smart_devices import SmartDevice
@@ -9,12 +11,12 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    home = Home("4200 Fifth Ave")
-    bulb = LightBulb("SmartBulb2", "Philips", 75.5)
+    home2 = Home("4200 Fifth Ave")
+    bulb2 = LightBulb("SmartBulb2", "Philips", 75.5)
 
-    home.add_device(bulb)
+    home2.add_device(bulb2)
 
-    return render_template("home.html", home=home)
+    return render_template("home.html", home=home2)
 
 @app.route('/add_lightbulb', methods=['POST'])
 def add_lightbulb():
@@ -27,9 +29,17 @@ def add_lightbulb():
         new_bulb = LightBulb(name, manufacturer, brightness)
         light_bulb_json = new_bulb.to_json()
 
-        with open('light.json', 'w') as file:
-            file.write(light_bulb_json)
-            
+        light_json_path = 'light.json'
+        if not os.path.exists(light_json_path):
+            with open(light_json_path, 'w') as file:
+                json.dump([], file)
+
+        with open(light_json_path, 'r+') as file:
+            file_data = json.load(file)
+            file_data.append(json.loads(light_bulb_json))
+            file.seek(0)
+            json.dump(file_data, file, indent=4)
+
         return jsonify({"message": "LightBulb added successfully"}), 200
 
     except KeyError:
