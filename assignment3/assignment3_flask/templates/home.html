@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Home Details</title>        
+    </head>
+    <body>
+        <h1>Home Address: {{ home.get_address() }}</h1>
+        <h2>Smart Devices:</h2>
+        <ul>
+            {% for device in home.get_devices() %}
+                <li>{{ device.to_json() }}</li>
+            {% endfor %}
+        </ul>
+    </body>
+</html>

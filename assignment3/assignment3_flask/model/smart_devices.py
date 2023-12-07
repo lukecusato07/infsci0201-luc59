@@ -62,7 +62,7 @@ class Home:
         return json.dumps(home_data) 
 
 
-bulb = LightBulb("SmartBulb", "Amazon", 5)
+bulb = LightBulb("SmartBulb", "Philips", 50.5)
 home = Home("135 N Bellfield Ave")
 home.add_device(bulb)
 home.print_devices()
