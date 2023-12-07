@@ -25,15 +25,10 @@ def add_lightbulb():
         brightness = data['brightness']
 
         new_bulb = LightBulb(name, manufacturer, brightness)
+        light_bulb_json = new_bulb.to_json()
 
-        #light_bulb_json = new_bulb.to_json()
-
-
-        with open('light.json', 'r') as file:
-            light_json = json.load(file)
-            return light_json
-
-            #file.write(light_bulb_json)
+        with open('light.json', 'w') as file:
+            file.write(light_bulb_json)
             
         return jsonify({"message": "LightBulb added successfully"}), 200
 
