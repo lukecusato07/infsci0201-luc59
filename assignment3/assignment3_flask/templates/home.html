@@ -1,15 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Home Details</title>        
+        <meta charset="utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1"/>
+        <title>
+            Home Details
+        </title>        
     </head>
     <body>
         <h1>Home Address: {{ home.get_address() }}</h1>
         <h2>Smart Devices:</h2>
+        <p>
         <ul>
             {% for device in home.get_devices() %}
-                <li>{{ device.to_json() }}</li>
+                <li>
+                    <em>{{ device.to_json() }}</em>
+                </li>
             {% endfor %}
         </ul>
+        </p>
     </body>
 </html>
