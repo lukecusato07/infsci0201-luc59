@@ -46,6 +46,12 @@ class Home:
         self.__address = address
         self.__smart_devices = smart_devices if smart_devices is not None else []
 
+    def get_address(self):
+        return self.__address
+    
+    def get_devices(self):
+        return self.__smart_devices
+
     def add_device(self, device: SmartDevice):
         self.__smart_devices.append(device)
         device.connect_to_network()
