@@ -1,5 +1,4 @@
-from flask import Flask
-import render_template
+from flask import Flask, render_template
 
 from model.smart_devices import Home
 from model.smart_devices import SmartDevice
