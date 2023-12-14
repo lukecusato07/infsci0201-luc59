@@ -3,7 +3,7 @@ import json
 import requests
 from devices import LightBulb, Vacuum, Thermostat, Home, NETWORK_CONNECTION_MESSAGE
 
-WEATHER_API_KEY = "a3fJhWTXjyT0t8xP649BXVzaWEIdX5Rq"
+WEATHER_API_KEY = "760557e4a0c14f868b7232036231412"
 FILE_PATH = 'data/devices.json'
 
 devices = []
@@ -15,8 +15,15 @@ def save_devices(devices):
         json.dump(devices, file, indent=4)
 
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
+    home2 = Home("135 N Bellfield Ave", 15213)
+    
+    return render_template('home.html', home=home2)
+
+
+@app.route('/devices', methods=['GET'])
+def get_devices():
     bulb2 = LightBulb("SmartBulb", "Philips", 50.5)
     vacuum2 = Vacuum("SmartVacuum", "Dyson", 100)
     thermostat2 = Thermostat("SmartThermostat", "Nest", "Master Bedroom", 72)
@@ -27,12 +34,6 @@ def index():
     home2.add_device(thermostat2)
 
     return render_template('home.html', home=home2)
-
-
-@app.route('/devices', methods=['GET'])
-def get_devices():
-    devices = index()
-    return jsonify(devices)
 
 
 @app.route('/devices', methods=['POST'])
@@ -88,18 +89,22 @@ def delete_device(device_id):
 @app.route('/temperature_check', methods=['GET'])
 def temp_check():
     zip_code = request.args.get('zip_code')
-    weather_url = f'https://api.weatherstack.com/current?access_key={WEATHER_API_KEY}&query={zip_code}'
-    
+    weather_url = f'http://api.weatherapi.com/v1/current.json?key={WEATHER_API_KEY}&q={zip_code}&aqi=no'
+
+
     response = requests.get(weather_url)
+
     if response.status_code == 200:
-        outside_temp = response.json()['temperature']
+        data = response.json()
+        outside_temp = data['current']['temp_f']
+        print(outside_temp)
         home_temp = 72
         temp_difference = home_temp - outside_temp
         return jsonify({'temperature difference' : temp_difference})
     
     else:
         return jsonify({'error': 'Failed to fetch external temperature'}), 500
-    
+
 
 if __name__ == '__main__':
     app.run(host="0.0.0.0", port=8000, debug=True)
