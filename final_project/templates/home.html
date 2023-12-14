@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>
+        Smart Home Devices
+    </title>
+</head>
+<body>
+    <h1>Home Address: {{ home.get_address() }}</h1>
+    <h2>Smart Home Devices</h2>
+    <ul>
+        {% for device in home.get_devices() %}
+        <li>
+            <em>{{ device.to_json() }}</em>
+        </li>
+        {% endfor %}
+    </ul>
+    <form action="/devices" method="POST">
+        <label for="name">Device Name:</label>
+        <input type="text" id="name" name="name" required>
+        <label for="zip">Device Location:</label>
+        <input type="text" id="location" name="location" required>
+        <input type="submit" value="Add Device">
+    </form>
+</body>
+</html>
