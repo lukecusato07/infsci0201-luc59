@@ -66,24 +66,25 @@ def add_device():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/devices/<int:device_id>', methods=['PUT'])
-def update_device(device_id):
+@app.route('/devices/<str:name>', methods=['PUT'])
+def update_device(name):
     data = request.json
     
-    if device_id < 0 or device_id >= len(devices):
+    if name != devices:
         return jsonify({'error': 'Device not found'}), 404
-    devices[device_id] = data
+    devices['name'] = data
     save_devices(devices)
     return jsonify({'message': 'Device updated successfully'})
 
 
-@app.route('/devices/<int:device_id>', methods=['DELETE'])
-def delete_device(device_id):
+@app.route('/devices/<str:name>', methods=['DELETE'])
+def delete_device(name):
     
-    if device_id < 0 or device_id >= len(devices):
+    
+    if name != devices:
         return jsonify({'error': 'Device not found'}), 404
     
-    del devices[device_id]
+    del devices[name]
     save_devices(devices)
     return jsonify({'message': 'Device deleted successfully'})
 

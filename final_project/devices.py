@@ -13,7 +13,8 @@ class SmartDevice(ABC):
         return self.__name
     
     def get_manufacturer(self):
-        return self.__manufacturer 
+        return self.__manufacturer
+    
 
     @abstractmethod
     def to_json(self):
