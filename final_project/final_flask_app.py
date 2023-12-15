@@ -71,27 +71,19 @@ def add_device():
 def update_page(id):
     home2 = Home(ADDRESS, 15213)
     return render_template('update.html', home=home2)
-def update_device(name):
+@app.route('/devices/<id>', methods=['PUT'])
+def update_device(id):
     data = request.json
+    device = next((d for d in devices if d['id'] == id), None)
     
-    if name != devices:
-        return jsonify({'error': 'Device not found'}), 404
-    devices['name'] = data
-    save_devices(devices)
-    return jsonify({'message': 'Device updated successfully'})
-
-
-@app.route('/devices/<id>', methods=['DELETE'])
-def delete_page(id):
-    home2 = Home(ADDRESS, 15213)
-    return render_template('delete.html', home=home2)
-def delete_device(name):
-    if name != devices:
+    if not device:
         return jsonify({'error': 'Device not found'}), 404
     
-    del devices[name]
-    save_devices(devices)
-    return jsonify({'message': 'Device deleted successfully'})
+    for key, value in data.items():
+        if key in device:
+            device[key] = value
+    
+    return jsonify({'message': 'Device updated successfully'}), 200
 
 
 @app.route('/temperature_check', methods=['GET'])
