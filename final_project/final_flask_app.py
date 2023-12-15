@@ -38,9 +38,11 @@ def get_devices():
 
 @app.route('/devices', methods=['POST'])
 def add_device():
-    data = request.json
+    data = request.form
+    print(data)
 
     try:
+        print(data)
         name = data['name']
         manufacturer = data['manufacturer']
         brightness = data['brightness']
@@ -55,7 +57,7 @@ def add_device():
             json.dump(thermostat_to_json, file, indent=4)
 
 
-        return jsonify({'message': 'Termostat added successfully.'}), 200
+        return jsonify({'message': 'Device added successfully.'}), 200
     
     except KeyError:
         return jsonify({'error': 'Missing data for creating a thermostat'}), 400
