@@ -74,7 +74,7 @@ def update_page(id):
 @app.route('/devices/<id>', methods=['PUT'])
 def update_device(id):
     data = request.json
-    device = next((d for d in devices if d['id'] == id), None)
+    device = next((device for device in devices if device['id'] == id), None)
     
     if not device:
         return jsonify({'error': 'Device not found'}), 404
