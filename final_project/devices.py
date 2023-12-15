@@ -5,9 +5,10 @@ import json
 NETWORK_CONNECTION_MESSAGE = "is now connected to the network."
 
 class SmartDevice(ABC):
-    def __init__(self, name: str, manufacturer: str):
+    def __init__(self, name: str, manufacturer: str, id: int):
         self.__name = name
         self.__manufacturer = manufacturer
+        self.__id = id
 
     def get_name(self):
         return self.__name
@@ -15,7 +16,9 @@ class SmartDevice(ABC):
     def get_manufacturer(self):
         return self.__manufacturer
     
-
+    def get_id(self):
+        return self.__id
+    
     @abstractmethod
     def to_json(self):
         pass
@@ -25,8 +28,8 @@ class SmartDevice(ABC):
         pass
     
 class LightBulb(SmartDevice):
-    def __init__(self, name: str, manufacturer: str, brightness: float):
-        super().__init__(name, manufacturer)
+    def __init__(self, name: str, manufacturer: str, id: int, brightness: float):
+        super().__init__(name, manufacturer, id)
         self.__brightness = brightness
 
     def adjust_brightness(self, value: float):
@@ -37,6 +40,7 @@ class LightBulb(SmartDevice):
         light_bulb_data = {
             'name': self.get_name(),
             'manufacturer': self.get_manufacturer(),
+            'id': self.get_id(),
             'brightness': self.__brightness
         }
         return json.dumps(light_bulb_data)
@@ -45,8 +49,8 @@ class LightBulb(SmartDevice):
         print(self.get_name(), NETWORK_CONNECTION_MESSAGE)
 
 class Vacuum(SmartDevice):
-    def __init__(self, name: str, manufacturer: str, battery: int):
-        super().__init__(name, manufacturer)
+    def __init__(self, name: str, manufacturer: str, id: int, battery: int):
+        super().__init__(name, manufacturer, id)
         self.__battery = battery
 
     def battery_check(self, value: int):
@@ -60,6 +64,7 @@ class Vacuum(SmartDevice):
         vacuum_data = {
             'name' : self.get_name(),
             'manufacturer' : self.get_manufacturer(),
+            'id': self.get_id(),
             'battery' : self.__battery
         }
         return json.dumps(vacuum_data)
@@ -68,8 +73,8 @@ class Vacuum(SmartDevice):
         print(self.get_name(), NETWORK_CONNECTION_MESSAGE)
 
 class Thermostat(SmartDevice):
-    def __init__(self, name: str, manufacturer: str, room: str, temp: int):
-        super().__init__(name, manufacturer)
+    def __init__(self, name: str, manufacturer: str, id: int, room: str, temp: int):
+        super().__init__(name, manufacturer,id)
         self.__room = room
         self.__temp = temp
 
@@ -81,6 +86,7 @@ class Thermostat(SmartDevice):
         thermostat_data = {
             'name': self.get_name(),
             'manufacturer': self.get_manufacturer(),
+            'id': self.get_id(),
             'room': self.__room,
             'temperature': self.__temp
         }
@@ -119,9 +125,9 @@ class Home:
         return json.dumps(home_data) 
 
 
-bulb = LightBulb("SmartBulb", "Philips", 50.5)
-vacuum = Vacuum("SmartVacuum", "Dyson", 100)
-thermostat = Thermostat("SmartThermostat", "Nest", "Master Bedroom", 72)
+bulb = LightBulb("SmartBulb", "Philips", 0, 50.5)
+vacuum = Vacuum("SmartVacuum", "Dyson", 1, 100)
+thermostat = Thermostat("SmartThermostat", "Nest", 2, "Master Bedroom", 72)
 home = Home("135 N Bellfield Ave", 15213)
 home.add_device(bulb)
 home.add_device(vacuum)

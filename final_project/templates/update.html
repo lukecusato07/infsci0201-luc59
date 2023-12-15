@@ -17,11 +17,13 @@
         </li>
         {% endfor %}
     </ul>
-    <form action="/devices/<name>" method="POST">
+    <form action="/devices/<id>" method="POST">
         <label for="name">Device Name:</label>
-        <input type="text" id="name" name="name">
+        <input type="text" id="name" name="name" required>
         <label for="zip">Manufacturer:</label>
-        <input type="text" id="manufacturer" name="manufacturer">
+        <input type="text" id="manufacturer" name="manufacturer" required>
+        <label for="zip">Device ID:</label>
+        <input type="text" id="id" name="id" required>
         <label for="zip">Light Bulb Brightness:</label>
         <input type="text" id="brightness" name="brightness">
         <label for="zip">Vacuum Battery:</label>
@@ -29,8 +31,9 @@
         <label for="zip">Thermostat Room:</label>
         <input type="text" id="room" name="room">
         <label for="zip">Room Temperature:</label>
-        <input type="text" id="temperature" name="temperature">
-        <input type="submit" value="Add Device">
+        <input type="text" id="temp" name="temperature">
+        <input type="submit" value="Update Device">
+        <input type="submit" value="Delete Device">
     </form>
 </body>
 </html>

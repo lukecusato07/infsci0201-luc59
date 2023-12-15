@@ -5,6 +5,7 @@ from devices import LightBulb, Vacuum, Thermostat, Home, NETWORK_CONNECTION_MESS
 
 WEATHER_API_KEY = "760557e4a0c14f868b7232036231412"
 FILE_PATH = 'data/devices.json'
+ADDRESS = "135 N Bellfield Ave"
 
 devices = []
 app = Flask(__name__)
@@ -17,17 +18,17 @@ def save_devices(devices):
 
 @app.route('/', methods=['GET'])
 def index():
-    home2 = Home("135 N Bellfield Ave", 15213)
+    home2 = Home(ADDRESS, 15213)
     
     return render_template('home.html', home=home2)
 
 
 @app.route('/devices', methods=['GET'])
 def get_devices():
-    bulb2 = LightBulb("SmartBulb", "Philips", 50.5)
-    vacuum2 = Vacuum("SmartVacuum", "Dyson", 100)
-    thermostat2 = Thermostat("SmartThermostat", "Nest", "Master Bedroom", 72)
-    home2 = Home("135 N Bellfield Ave", 15213)
+    bulb2 = LightBulb("SmartBulb", "Philips", 3, 50.5)
+    vacuum2 = Vacuum("SmartVacuum", "Dyson", 4, 100)
+    thermostat2 = Thermostat("SmartThermostat", "Nest", 5, "Master Bedroom", 72)
+    home2 = Home(ADDRESS, 15213)
     
     home2.add_device(bulb2)
     home2.add_device(vacuum2)
@@ -39,18 +40,18 @@ def get_devices():
 @app.route('/devices', methods=['POST'])
 def add_device():
     data = request.form
-    print(data)
 
     try:
         print(data)
         name = data['name']
         manufacturer = data['manufacturer']
+        device_id = data['id']
         brightness = data['brightness']
         battery = data['battery']
         room = data['room']
         temp = data['temperature']
 
-        new_thermostat = Thermostat(name, manufacturer, room, temp)
+        new_thermostat = Thermostat(name, device_id, manufacturer, room, temp)
         thermostat_to_json = new_thermostat.to_json()
         
         with open(FILE_PATH, 'w') as file:
@@ -66,7 +67,10 @@ def add_device():
         return jsonify({"error": str(e)}), 500
 
 
-@app.route('/devices/<str:name>', methods=['PUT'])
+@app.route('/devices/<id>', methods=['GET'])
+def update_page(id):
+    home2 = Home(ADDRESS, 15213)
+    return render_template('update.html', home=home2)
 def update_device(name):
     data = request.json
     
@@ -77,10 +81,11 @@ def update_device(name):
     return jsonify({'message': 'Device updated successfully'})
 
 
-@app.route('/devices/<str:name>', methods=['DELETE'])
+@app.route('/devices/<id>', methods=['DELETE'])
+def delete_page(id):
+    home2 = Home(ADDRESS, 15213)
+    return render_template('delete.html', home=home2)
 def delete_device(name):
-    
-    
     if name != devices:
         return jsonify({'error': 'Device not found'}), 404
     
